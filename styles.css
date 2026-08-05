@@ -118,7 +118,9 @@ button {
   position: absolute;
   inset: 0;
   display: grid;
-  align-content: center;
+  /* "safe": center only while the content FITS; once it's taller than the viewport, fall back
+     to top-alignment instead of pushing the top edge up under the fixed header (the overlap bug) */
+  align-content: safe center;
   padding: clamp(76px, 10vh, 112px) clamp(50px, 8vw, 138px) clamp(76px, 9vh, 100px);
   overflow: hidden auto;
   visibility: hidden;
