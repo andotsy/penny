@@ -154,16 +154,18 @@ function initializeMediaSlots() {
     if (!media) return;
 
     const markReady = () => {
+      slot.classList.remove("is-loading");
       slot.classList.add("has-media");
       if (media instanceof HTMLVideoElement && slot.closest(".slide")?.classList.contains("is-active")) {
         media.play().catch(() => {});
       }
     };
 
-    const markMissing = () => slot.classList.remove("has-media");
+    const markMissing = () => slot.classList.remove("has-media", "is-loading");
     media.addEventListener("error", markMissing);
 
     if (media instanceof HTMLVideoElement) {
+      slot.classList.add("is-loading");   // spinner on the placeholder until first ready event
       // Safari (desktop + iOS) with preload="metadata" frequently stalls at HAVE_METADATA and
       // never fires "loadeddata" until playback starts — so the slot stayed hidden and the gate
       // that plays active-slide videos never opened. Reveal on the EARLIEST ready signal, and

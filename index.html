@@ -534,8 +534,39 @@
 
       </section>
 
-      <section class="slide slide--assembly" id="slide-13" data-title="Assembly" aria-hidden="true">
+      <section class="slide slide--rebuild" id="slide-13" data-title="Clean the vat" aria-hidden="true">
         <div class="slide__index" aria-hidden="true">13</div>
+        <div class="slide__header slide__header--split">
+          <div>
+            <p class="eyebrow">PRINTING / SETBACK</p>
+            <h2>Hours of printing, zero model</h2>
+          </div>
+          <p class="header-note">A dirty vat doesn't refuse to print — it prints nothing, slowly.</p>
+        </div>
+
+        <div class="build-story">
+          <aside class="build-note build-note--left">
+            <strong>13 CLEAN THE VAT</strong>
+            <p>Print over a vat still holding debris from a failed attempt and nothing sticks — the printer runs for hours before the self-test finally admits "No model detected." Hours of "printing", zero model.</p>
+          </aside>
+
+          <div class="build-grid build-grid--photos">
+            <figure class="media-slot build-card" style="--ar: 926 / 842; --share: 46%" data-media>
+              <img src="./media/14-printer-no-model.jpg" alt="Resin printer self-test reporting 'No model detected, please troubleshoot' hours into a print over an uncleaned vat" data-media-content />
+              <div class="media-placeholder"><strong>Printer self-test failure</strong></div>
+              <figcaption><span>13</span> UNCLEANED VAT / SELF-TEST FAIL</figcaption>
+            </figure>
+          </div>
+
+          <aside class="build-note build-note--right">
+            <strong>SPECIAL THANKS</strong>
+            <p>To my girlfriend, who cleaned the vat when I was too exhausted to face it — without her, this story probably ends a few slides early.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide slide--assembly" id="slide-14" data-title="Assembly" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">14</div>
         <div class="slide__header slide__header--split">
           <div>
             <p class="eyebrow">ASSEMBLY</p>
@@ -547,11 +578,11 @@
         <div class="build-story">
           <div class="build-note-stack">
             <aside class="build-note build-note--left">
-              <strong>13 STACK READY</strong>
+              <strong>14 STACK READY</strong>
               <p>The controller, display, camera and wiring, compressed into the narrow arrangement the enclosure was modeled around.</p>
             </aside>
             <aside class="build-note build-note--left">
-              <strong>14 BELOW THE SEAM</strong>
+              <strong>15 BELOW THE SEAM</strong>
               <p>Everything laid in must stay below the closure line — the cover drops on and slides shut over it.</p>
             </aside>
           </div>
@@ -560,22 +591,22 @@
             <figure class="media-slot build-card" data-media>
               <img src="./media/11-stack-ready.jpg" alt="Completed electronics stack ready for enclosure assembly" data-media-content />
               <div class="media-placeholder"><strong>Stack ready</strong></div>
-              <figcaption><span>13</span> STACK READY</figcaption>
+              <figcaption><span>14</span> STACK READY</figcaption>
             </figure>
             <figure class="media-slot build-card" data-media>
               <img src="./media/11-in-body.jpg" alt="Electronics installed into the lower half of the pen enclosure" data-media-content />
               <div class="media-placeholder"><strong>Installed in body</strong></div>
-              <figcaption><span>14</span> BOTTOM-FIRST INSTALL</figcaption>
+              <figcaption><span>15</span> BOTTOM-FIRST INSTALL</figcaption>
             </figure>
             <figure class="media-slot build-card" data-media>
               <img src="./media/11-installed-closeup.jpg" alt="Close-up of the installed board, wires, switch, and battery" data-media-content />
               <div class="media-placeholder"><strong>Installed close-up</strong></div>
-              <figcaption><span>15</span> FIT CHECK</figcaption>
+              <figcaption><span>16</span> FIT CHECK</figcaption>
             </figure>
           </div>
 
           <aside class="build-note build-note--right">
-            <strong>15 THE ANTENNA TRICK</strong>
+            <strong>16 THE ANTENNA TRICK</strong>
             <p>The board's built-in antenna, sealed in the pen, reached 1–2 meters. In this close-up: an external sheet antenna, clicked onto the board's socket and slid flat between the two boards — range now through two walls.</p>
           </aside>
         </div>
@@ -583,8 +614,8 @@
 
 
 
-      <section class="slide slide--network" id="slide-14" data-title="Connection" aria-hidden="true">
-        <div class="slide__index" aria-hidden="true">14</div>
+      <section class="slide slide--network" id="slide-15" data-title="Connection" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">15</div>
         <div class="slide__header slide__header--split">
           <div>
             <p class="eyebrow">CONNECTION</p>
@@ -597,6 +628,8 @@
           <div class="network-diagram" aria-label="Penny Link network architecture">
             <article class="network-node network-node--pen"><span>EDGE</span><strong>PEN</strong><small>camera · OLED · SD buffer</small></article>
             <div class="network-link"><b>WiFi</b><i></i><small>outbound</small></div>
+            <article class="network-node"><span>PHONE</span><strong>MOBILE HOTSPOT</strong><small>kept alive by Penny Hotspot</small></article>
+            <div class="network-link"><b>LTE</b><i></i><small>into the tunnel</small></div>
             <article class="network-node"><span>TUNNEL</span><strong>WIREGUARD</strong><small>private perimeter</small></article>
             <div class="network-link"><b>WS</b><i></i><small>binary + JSON</small></div>
             <article class="network-node network-node--relay"><span>OPENWRT ROUTER · DOCKER</span><strong>AIOHTTP RELAY</strong><small>web app · captures · recordings · OTA</small></article>
@@ -621,8 +654,8 @@
       </section>
 
 
-      <section class="slide slide--wars" id="slide-15" data-title="Small wars" aria-hidden="true">
-        <div class="slide__index" aria-hidden="true">15</div>
+      <section class="slide slide--wars" id="slide-16" data-title="Small wars" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">16</div>
         <div class="slide__header slide__header--split">
           <div>
             <p class="eyebrow">DETAILS</p>
@@ -634,7 +667,7 @@
         <div class="build-story">
           <div class="build-note-stack">
             <aside class="build-note build-note--left">
-              <strong>16 THE DISPLAY REFUSED TO DIM</strong>
+              <strong>17 THE DISPLAY REFUSED TO DIM</strong>
               <p>The OLED clone ignores every software dimming path — contrast writes, register pokes, dithering. The fix is physical: a tint film over the window. Boot UX shrank to three glyphs: <code>...</code> booting, <code>+</code> online, <code>!</code> no WiFi.</p>
             </aside>
             <aside class="build-note build-note--left">
@@ -647,54 +680,24 @@
             <figure class="media-slot build-card" style="--ar: 960 / 1280; --share: 38%" data-media>
               <img src="./media/13-stealth-display.jpg" alt="The pen's display reading 'how you doin?', barely visible through the tint film" data-media-content />
               <div class="media-placeholder"><strong>Display through the tint film</strong></div>
-              <figcaption><span>16</span> STEALTH LOOK</figcaption>
+              <figcaption><span>17</span> STEALTH LOOK</figcaption>
             </figure>
             <figure class="media-slot build-card" style="--ar: 750 / 1624; --share: 24%" data-media>
               <img src="./media/13-hotspot-app.jpg" alt="Penny Hotspot — the TrollStore app that keeps the iPhone hotspot discoverable while locked" data-media-content />
               <div class="media-placeholder"><strong>Penny Hotspot app</strong></div>
-              <figcaption><span>17</span> PENNY HOTSPOT / TROLLSTORE</figcaption>
+              <figcaption><span>18</span> PENNY HOTSPOT / TROLLSTORE</figcaption>
             </figure>
           </div>
 
           <div class="build-note-stack">
             <aside class="build-note build-note--right">
-              <strong>17 POCKET INFRASTRUCTURE</strong>
+              <strong>18 POCKET INFRASTRUCTURE</strong>
               <p>iOS kills a locked phone's hotspot in ~20 seconds — fatal for a pen that lives in a pocket. A custom TrollStore app keeps Personal Hotspot advertising with the app closed and the phone locked, and the hotspot hides under a boring printer SSID.</p>
             </aside>
           </div>
         </div>
       </section>
 
-      <section class="slide slide--rebuild" id="slide-16" data-title="Clean the vat" aria-hidden="true">
-        <div class="slide__index" aria-hidden="true">16</div>
-        <div class="slide__header slide__header--split">
-          <div>
-            <p class="eyebrow">PRINTING / SETBACK</p>
-            <h2>Hours of printing, zero model</h2>
-          </div>
-          <p class="header-note">A dirty vat doesn't refuse to print — it prints nothing, slowly.</p>
-        </div>
-
-        <div class="build-story">
-          <aside class="build-note build-note--left">
-            <strong>18 CLEAN THE VAT</strong>
-            <p>Print over a vat still holding debris from a failed attempt and nothing sticks — the printer runs for hours before the self-test finally admits "No model detected." Hours of "printing", zero model.</p>
-          </aside>
-
-          <div class="build-grid build-grid--photos">
-            <figure class="media-slot build-card" style="--ar: 926 / 842; --share: 46%" data-media>
-              <img src="./media/14-printer-no-model.jpg" alt="Resin printer self-test reporting 'No model detected, please troubleshoot' hours into a print over an uncleaned vat" data-media-content />
-              <div class="media-placeholder"><strong>Printer self-test failure</strong></div>
-              <figcaption><span>18</span> UNCLEANED VAT / SELF-TEST FAIL</figcaption>
-            </figure>
-          </div>
-
-          <aside class="build-note build-note--right">
-            <strong>SPECIAL THANKS</strong>
-            <p>To my girlfriend, who cleaned the vat when I was too exhausted to face it — without her, this story probably ends a few slides early.</p>
-          </aside>
-        </div>
-      </section>
 
       <section class="slide slide--answer" id="slide-17" data-title="AI" data-chrome="dark" aria-hidden="true">
         <div class="slide__index" aria-hidden="true">17</div>

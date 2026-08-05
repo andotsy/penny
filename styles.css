@@ -3022,3 +3022,15 @@ h1 em {
     min-height: 0;
   }
 }
+
+/* spinner on the placeholder while a video is still downloading */
+.media-slot.is-loading .media-placeholder::after {
+  content: "";
+  width: 22px;
+  height: 22px;
+  margin-top: 6px;
+  border: 2px solid rgba(241, 238, 229, 0.16);
+  border-top-color: var(--signal);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
