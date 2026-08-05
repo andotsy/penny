@@ -3005,3 +3005,18 @@ h1 em {
 @media (max-width: 620px) {
   .print-media-grid--compact { grid-template-columns: 1fr; }
 }
+
+/* ---------- mobile: photo/video cards must never exceed the screen width ---------- */
+@media (max-width: 780px) {
+  .build-grid--photos {
+    flex-direction: column;
+    max-width: 100%;
+  }
+  .build-grid--photos .build-card {
+    /* width capped at the container (no overflow) OR the height-derived width, smaller wins */
+    width: min(100%, calc(52vh * var(--ar, 1.33)));
+    max-width: 100%;
+    height: auto;
+    min-height: 0;
+  }
+}
