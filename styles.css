@@ -3139,9 +3139,8 @@ h1 em {
 /* meme slot: the baked punchline lives bottom-right - park the caption chip bottom-left
    (over the jacket, not the text) and shrink it */
 .media-slot--meme figcaption {
-  right: auto;
-  left: 16px;
-  bottom: 14px;
+  right: 16px;
+  bottom: 12px;
   padding: 5px 8px;
   font-size: 8.5px;
 }
