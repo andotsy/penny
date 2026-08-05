@@ -14,8 +14,16 @@ for (const file of modelFiles) {
   const destination = path.join(destinationRoot, file);
   const sourceStats = await stat(source).catch(() => null);
 
+  // Standalone repo (this one): there is no ../cad tree — the STLs are committed straight
+  // into public/models. Only re-sync when a CAD export actually exists; otherwise trust the
+  // committed copy, and only complain if it's missing too.
   if (!sourceStats?.isFile() || sourceStats.size === 0) {
-    throw new Error(`Missing CAD export: ${source}. Run scripts/01_cad_build.sh first.`);
+    const destStats = await stat(destination).catch(() => null);
+    if (destStats?.isFile() && destStats.size > 0) {
+      console.log(`kept committed ${file} (${(destStats.size / 1_000_000).toFixed(1)} MB)`);
+      continue;
+    }
+    throw new Error(`Missing model: no CAD export at ${source} and no committed copy at ${destination}.`);
   }
 
   await copyFile(source, destination);

@@ -93,6 +93,7 @@ function navigate(direction) {
 
 document.querySelector("[data-deck-action='previous']").addEventListener("click", () => navigate(-1));
 document.querySelector("[data-deck-action='next']").addEventListener("click", () => navigate(1));
+document.querySelector("[data-home]")?.addEventListener("click", () => showSlide(0));
 
 document.addEventListener("keydown", (event) => {
   if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
@@ -160,13 +161,19 @@ function initializeMediaSlots() {
     };
 
     const markMissing = () => slot.classList.remove("has-media");
-    media.addEventListener(media instanceof HTMLVideoElement ? "loadeddata" : "load", markReady);
     media.addEventListener("error", markMissing);
 
-    if (media instanceof HTMLImageElement && media.complete && media.naturalWidth > 0) {
-      markReady();
-    } else if (media instanceof HTMLVideoElement && media.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
-      markReady();
+    if (media instanceof HTMLVideoElement) {
+      // Safari (desktop + iOS) with preload="metadata" frequently stalls at HAVE_METADATA and
+      // never fires "loadeddata" until playback starts — so the slot stayed hidden and the gate
+      // that plays active-slide videos never opened. Reveal on the EARLIEST ready signal, and
+      // kick load() so metadata actually arrives.
+      ["loadedmetadata", "loadeddata", "canplay"].forEach((ev) => media.addEventListener(ev, markReady));
+      if (media.readyState >= HTMLMediaElement.HAVE_METADATA) markReady();
+      else media.load();
+    } else {
+      media.addEventListener("load", markReady);
+      if (media.complete && media.naturalWidth > 0) markReady();
     }
   });
 }

@@ -2967,3 +2967,39 @@ h1 em {
   height: 100%;
   min-height: clamp(380px, 56vh, 640px);
 }
+
+/* ---------- clickable brand (button reset; sits above the deck) ---------- */
+.site-chrome { pointer-events: none; }
+.site-chrome__brand {
+  pointer-events: auto;
+  cursor: pointer;
+  margin: 0;
+  padding: 4px 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+.site-chrome__brand:hover { color: var(--paper); }
+
+/* ---------- mobile: header clears the notch/status bar, content clears the header ---------- */
+@media (max-width: 780px) {
+  :root { --chrome-y: calc(14px + env(safe-area-inset-top, 0px)); }
+  .slide { padding: calc(58px + env(safe-area-inset-top, 0px)) 22px 76px; }
+}
+
+/* ---------- slide 10 printing: adaptive so media never overlaps at low width ---------- */
+@media (max-width: 1080px) {
+  /* container height is now auto, so cells must size from aspect ratio, not 1fr/100% */
+  .print-media-grid--compact { grid-auto-rows: auto; }
+  .print-media-grid--compact .media-slot--process {
+    height: auto;
+    aspect-ratio: 4 / 3;
+    min-height: 0;
+  }
+}
+@media (max-width: 620px) {
+  .print-media-grid--compact { grid-template-columns: 1fr; }
+}
