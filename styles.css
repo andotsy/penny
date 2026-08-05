@@ -3153,3 +3153,11 @@ h1 em {
 @media (max-width: 780px) {
   .guard-list { grid-template-columns: 1fr; }
 }
+
+/* CAD slide mobile: cards hug their text (desktop keeps equal heights) */
+@media (max-width: 780px) {
+  .cad-script article {
+    min-height: 0;
+    padding: 16px 18px;
+  }
+}
