@@ -1609,7 +1609,9 @@ h1 em {
 }
 
 .media-slot--round {
-  width: min(62vh, 600px);
+  /* the vw term keeps the circle inside the screen on phones (62vh > screen width there);
+     44px = the slide's 22px side padding x2 */
+  width: min(62vh, 600px, calc(100vw - 44px));
   aspect-ratio: 1;
   min-height: 0;
 }
