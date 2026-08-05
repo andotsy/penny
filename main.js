@@ -63,6 +63,8 @@ function showSlide(index, { updateHash = true } = {}) {
 
     slide.querySelectorAll("video").forEach((video) => {
       if (isActive && video.closest("[data-media]")?.classList.contains("has-media")) {
+        video.muted = true;
+        video.playsInline = true;
         video.play().catch(() => {});
       } else {
         video.pause();
@@ -157,6 +159,10 @@ function initializeMediaSlots() {
       slot.classList.remove("is-loading");
       slot.classList.add("has-media");
       if (media instanceof HTMLVideoElement && slot.closest(".slide")?.classList.contains("is-active")) {
+        // iOS Safari: programmatic play() only counts as muted-autoplay when the IDL
+        // properties are set — the HTML attributes alone are not reliably honored.
+        media.muted = true;
+        media.playsInline = true;
         media.play().catch(() => {});
       }
     };
@@ -485,6 +491,20 @@ function initializeViewer() {
 }
 
 initializeMediaSlots();
+
+// iOS fallback: if autoplay was refused (Low Power Mode, missed ready-race), any tap or
+// swipe retries the active slide's paused videos — play() inside a gesture always counts.
+const kickActiveVideos = () => {
+  document.querySelectorAll(".slide.is-active [data-media].has-media video").forEach((video) => {
+    if (video.paused) {
+      video.muted = true;
+      video.playsInline = true;
+      video.play().catch(() => {});
+    }
+  });
+};
+["touchend", "click"].forEach((eventName) =>
+  document.addEventListener(eventName, kickActiveVideos, { passive: true }));
 
 const initialSlide = Number.parseInt(location.hash.slice(1), 10);
 showSlide(Number.isInteger(initialSlide) ? initialSlide - 1 : 0, { updateHash: false });

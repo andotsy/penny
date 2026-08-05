@@ -2742,7 +2742,8 @@ h1 em {
 
 @media (max-width: 1080px) {
   .finale-layout { grid-template-columns: 1fr; }
-  .media-slot--finale { height: 52vh; min-height: 340px; }
+  /* keep the photo's own aspect on mobile: full pen visible, no side crop */
+  .media-slot--finale { width: 100%; height: auto; min-height: 0; }
 }
 
 /* ---------- battery runtime strip (slide 04) ---------- */
@@ -3033,4 +3034,60 @@ h1 em {
   border-top-color: var(--signal);
   border-radius: 50%;
   animation: spin 0.9s linear infinite;
+}
+
+/* slide 8 (internals) mobile: photo above, component map below - no side-by-side squeeze */
+@media (max-width: 780px) {
+  .anatomy-layout,
+  .build-story--anatomy .anatomy-layout {
+    grid-template-columns: 1fr;
+  }
+  .media-slot--anatomy {
+    min-height: 0;
+    height: 46vh;
+  }
+}
+
+/* ---------- mobile collapses for late-defined layouts (these rules must live at the
+   end of the file: the layouts they override are declared after the main mobile block,
+   so source order would otherwise beat the collapse) ---------- */
+@media (max-width: 780px) {
+  /* slide 10 (Shapr3D collage): named areas -> one column in reading order */
+  .shapr-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "note1"
+      "img1"
+      "img2"
+      "sketch"
+      "note2"
+      "img3"
+      "img4";
+    justify-items: stretch;
+  }
+  .shapr-layout .build-card {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+  }
+  .shapr-layout .sl-sketch {
+    width: min(100%, calc(52vh * 563 / 980));
+    height: auto;
+    aspect-ratio: 563 / 980;
+    justify-self: center;
+  }
+
+  /* slide 12 (Printing): three-column story -> single column */
+  .build-story--printing { grid-template-columns: 1fr; }
+  .printing-layout { grid-template-columns: 1fr; height: auto; }
+  .slicing-panel .media-slot--supports { min-height: 300px; }
+
+  /* slide 15 (Connection): two app screenshots side by side are too small -> two rows */
+  .media-stack--app { flex-direction: column; }
+  .media-stack--app .media-slot--app {
+    flex: none;
+    width: 100%;
+    height: min(52vh, 460px);
+    min-height: 280px;
+  }
 }
