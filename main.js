@@ -73,6 +73,8 @@ function showSlide(index, { updateHash = true } = {}) {
   });
 
   currentSlide = nextIndex;
+  // slides scroll internally and remember their scrollTop - every arrival starts at the top
+  slides[nextIndex].scrollTop = 0;
   document.body.classList.toggle("on-light-slide", slides[nextIndex].dataset.chrome === "dark");
   currentLabel.textContent = String(nextIndex + 1).padStart(2, "0");
   progress.style.transform = `scaleX(${(nextIndex + 1) / slides.length})`;
@@ -491,6 +493,11 @@ function initializeViewer() {
 }
 
 initializeMediaSlots();
+
+// phones: the model-controls panel would cover half the 3D stage - start it collapsed there
+if (window.matchMedia("(max-width: 780px)").matches) {
+  document.querySelector(".viewer-panel")?.removeAttribute("open");
+}
 
 // iOS fallback: if autoplay was refused (Low Power Mode, missed ready-race), any tap or
 // swipe retries the active slide's paused videos — play() inside a gesture always counts.
