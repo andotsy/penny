@@ -3059,10 +3059,10 @@ h1 em {
       "note1"
       "img1"
       "img2"
-      "sketch"
-      "note2"
       "img3"
-      "img4";
+      "img4"
+      "sketch"
+      "note2";
     justify-items: stretch;
   }
   .shapr-layout .build-card {
