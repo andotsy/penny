@@ -3105,3 +3105,43 @@ h1 em {
 .viewer-panel:not([open]) summary {
   padding: 10px 12px;   /* keep a finger-sized tap target without the panel chrome */
 }
+
+/* slide 10 mid-width reflow: the wide collage is vh-sized and stops fitting below ~1500px -
+   switch to a fluid two-column flow (mobile keeps its own single-column block below 781px) */
+@media (min-width: 781px) and (max-width: 1500px) {
+  .shapr-layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "note1 note1"
+      "img1 img2"
+      "img3 img4"
+      "sketch sketch"
+      "note2 note2";
+    justify-items: center;
+    row-gap: clamp(12px, 2vh, 20px);
+  }
+  .shapr-layout .build-card {
+    width: min(100%, 520px);
+    height: auto;
+    aspect-ratio: 3 / 2;
+  }
+  .shapr-layout .sl-sketch {
+    width: min(100%, calc(56vh * 563 / 980), 380px);
+    height: auto;
+    aspect-ratio: 563 / 980;
+  }
+  .shapr-layout .build-note {
+    justify-self: stretch;
+    max-width: 70ch;
+  }
+}
+
+/* meme slot: the baked punchline lives bottom-right - park the caption chip bottom-left
+   (over the jacket, not the text) and shrink it */
+.media-slot--meme figcaption {
+  right: auto;
+  left: 16px;
+  bottom: 14px;
+  padding: 5px 8px;
+  font-size: 8.5px;
+}
