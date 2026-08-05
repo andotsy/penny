@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111514" />
+    <meta
+      name="description"
+      content="Project Penny: the story of building a working camera pen with AI, executable CAD, firmware, and physical feedback."
+    />
+    <title>Project Penny — Build Log</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#slide-1">Skip to presentation</a>
+
+    <div class="site-chrome" aria-hidden="true">
+      <div class="site-chrome__brand">PROJECT PENNY <span>/ BUILD LOG</span></div>
+    </div>
+
+    <main class="deck" id="deck">
+      <section class="slide slide--hero is-active" id="slide-1" data-title="A pen that reads screens" aria-hidden="false">
+        <div class="slide__index" aria-hidden="true">01</div>
+        <div class="hero-copy">
+          <p class="eyebrow">CAMERA PEN / HARDWARE + SOFTWARE</p>
+          <h1>A pen that<br /><em>reads</em> screens</h1>
+          <p class="lede">
+            A camera, display, battery, and network stack packaged inside a
+            21.6-millimeter enclosure and developed as one AI-assisted system.
+          </p>
+          <div class="hero-proof" aria-label="Project status">
+            <span>140 mm long · Ø14 mm barrel</span>
+            <span>21.6 × 20.0 mm cap</span>
+            <span>0.69″ · 96 × 16 OLED</span>
+            <span>5 MP autofocus · WiFi</span>
+          </div>
+        </div>
+
+        <figure class="media-slot media-slot--hero media-slot--meme" data-media>
+          <img src="./media/01-opening-meme.jpg" alt="Drake meme: rejecting a bought spy pen, approving building one" data-media-content />
+          <div class="media-placeholder">
+            <span class="media-placeholder__number">MEME / 00</span>
+            <strong>Opening meme</strong>
+            <code>01-opening-meme.jpg</code>
+          </div>
+          <figcaption>THE PROJECT DECISION / DRAMATIZED</figcaption>
+        </figure>
+
+        <div class="hero-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
+      </section>
+
+      <section class="slide slide--premise" id="slide-2" data-title="Overview" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">02</div>
+        <div class="slide__header">
+          <p class="eyebrow">OVERVIEW</p>
+          <h2>What went into the project</h2>
+        </div>
+
+        <div class="premise-grid">
+          <div class="premise-statement">
+            <p>Start with the actual parts: product-page dimensions are not enough for enclosure design.</p>
+          </div>
+          <div class="discipline-list" aria-label="Disciplines involved">
+            <article><span>01</span><strong>Mechanical</strong><small>Enclosure, fit, assembly</small></article>
+            <article><span>02</span><strong>Electrical</strong><small>Power, wiring, soldering</small></article>
+            <article><span>03</span><strong>Embedded</strong><small>Camera, display, network</small></article>
+            <article><span>04</span><strong>Web</strong><small>Relay, controls, captures</small></article>
+            <article><span>05</span><strong>iOS</strong><small>Hotspot keeper app (TrollStore)</small></article>
+          </div>
+        </div>
+
+        <aside class="cost-strip">
+          <span>AI-assisted engineering</span><i>+</i><span>specialist assembly</span><i>+</i><span>resin fabrication</span><i>+</i><span>physical validation</span>
+        </aside>
+      </section>
+
+
+
+
+
+      <section class="slide slide--build" id="slide-3" data-title="Parts" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">03</div>
+        <div class="slide__header slide__header--split">
+          <div>
+            <p class="eyebrow">FIRST LOOK</p>
+            <h2>The parts arrive</h2>
+          </div>
+          <p class="header-note">Two camera options, a board smaller than a thumb — and a transparent shell to see it all as a pen for the first time.</p>
+        </div>
+
+        <div class="build-story">
+          <aside class="build-note build-note--left">
+            <strong>01 CAMERA CHOICE</strong>
+            <p>The XIAO Sense came with two camera options. The autofocus OV5640 was chosen because the distance to the screen would never be fixed.</p>
+          </aside>
+
+          <div class="build-grid build-grid--pair">
+            <figure class="media-slot build-card" data-media>
+              <img src="./media/03-early-unboxed.jpg" alt="XIAO ESP32-S3 and two camera modules laid out after unboxing" data-media-content />
+              <div class="media-placeholder"><strong>Parts unboxed</strong></div>
+              <figcaption><span>01</span> ESP32-S3 + CAMERAS</figcaption>
+            </figure>
+            <figure class="media-slot build-card" data-media>
+              <img src="./media/03-early-transparent.jpg" alt="Early transparent-resin camera pen enclosure held in hand" data-media-content />
+              <div class="media-placeholder"><strong>Transparent enclosure</strong></div>
+              <figcaption><span>02</span> EARLY FIT CHECK</figcaption>
+            </figure>
+          </div>
+
+          <aside class="build-note build-note--right">
+            <strong>02 A PEN-SHAPED PROMISE</strong>
+            <p>An early transparent shell held the loose parts in a pen-shaped volume — the first look at the package as a pen, long before the real enclosure.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide slide--rebuild" id="slide-4" data-title="First light" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">04</div>
+        <div class="slide__header slide__header--split">
+          <div>
+            <p class="eyebrow">DISPLAY / FIRST LIGHT</p>
+            <h2>The screen speaks</h2>
+          </div>
+          <p class="header-note">A 0.69-inch, 96 × 16 pixel strip — the pen's entire voice. First it had to say anything at all; then it had to say it in Ukrainian.</p>
+        </div>
+
+        <div class="build-story">
+          <aside class="build-note build-note--left">
+            <strong>03 FIRST BOOT</strong>
+            <p>The clone SSD1306 controller came alive and the firmware's greeting — "PENNY hello :)" — appeared on a strip thinner than a fingernail. Everything the pen ever says to its owner passes through it.</p>
+          </aside>
+
+          <div class="build-grid build-grid--photos">
+            <figure class="media-slot build-card" style="--ar: 2200 / 2052; --share: 43%" data-media>
+              <img src="./media/04-oled-boot.jpg" alt="OLED showing the first PENNY hello message" data-media-content />
+              <div class="media-placeholder"><strong>First OLED boot</strong></div>
+              <figcaption><span>03</span> FIRST OLED BOOT</figcaption>
+            </figure>
+            <figure class="media-slot build-card" style="--ar: 2200 / 1648; --share: 53.5%" data-media>
+              <img src="./media/04-oled-cyrillic.jpg" alt="OLED successfully displaying Cyrillic text" data-media-content />
+              <div class="media-placeholder"><strong>Successful Cyrillic output</strong></div>
+              <figcaption><span>04</span> CYRILLIC WORKING</figcaption>
+            </figure>
+          </div>
+
+          <aside class="build-note build-note--right">
+            <strong>04 UKRAINIAN FIRST</strong>
+            <p>Out of the box the screen spoke ASCII — Ukrainian rendered as garbage. Cyrillic had to be added in firmware: UTF-8 handling plus fonts that actually carry і, ї, є, ґ.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide slide--rebuild" id="slide-5" data-title="Surgery" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">05</div>
+        <div class="slide__header slide__header--split">
+          <div>
+            <p class="eyebrow">DISPLAY / SURGERY</p>
+            <h2>Cutting the donor board</h2>
+          </div>
+          <p class="header-note">The panel ships on a development PCB far longer than the pen is wide. The driver circuitry had to stay. The rest met the cutting disc.</p>
+        </div>
+
+        <div class="build-story">
+          <aside class="build-note build-note--left">
+            <strong>05 THE CUT</strong>
+            <p>The board couldn't simply be cut — capacitors and resistors lived in the cut zone. The right guy, found by wandering the radio market, moved them to new spots first; then the dead half came off…</p>
+          </aside>
+
+          <div class="build-grid build-grid--photos">
+            <figure class="media-slot build-card" style="--ar: 1280 / 720; --share: 78%" data-media>
+              <video src="./media/05-pcb-cut.mp4" muted loop playsinline preload="metadata" data-media-content></video>
+              <div class="media-placeholder"><strong>PCB cut test</strong></div>
+              <figcaption><span>05</span> CUT-DOWN DISPLAY PCB</figcaption>
+            </figure>
+          </div>
+
+          <aside class="build-note build-note--right">
+            <strong>THE GLITCH</strong>
+            <p>…everything worked for about a day — until the display began dimming by itself, waking to full brightness only under a finger on its top-right corner. A cracked joint from the cut: flux, iron, rework — fixed.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide slide--assembly-fail" id="slide-6" data-title="Assembly attempt" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">06</div>
+        <div class="slide__header slide__header--split">
+          <div>
+            <p class="eyebrow">ASSEMBLY</p>
+            <h2>It does not go in</h2>
+          </div>
+          <p class="header-note">The wired internals meeting the pen body for the first time — and refusing to fit. This is the attempt the display didn't survive.</p>
+        </div>
+
+        <div class="assembly-fail-layout">
+          <figure class="media-slot media-slot--round" data-media>
+            <video src="./media/08-failed-assembly.mp4" muted loop playsinline preload="metadata" data-media-content></video>
+            <div class="media-placeholder"><strong>Failed assembly attempt</strong><code>08-failed-assembly.mp4</code></div>
+            <figcaption>ASSEMBLY / TAKE ONE</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="slide slide--rebuild" id="slide-7" data-title="Setback" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">07</div>
+        <div class="slide__header slide__header--split">
+          <div>
+            <p class="eyebrow">DISPLAY / SETBACK</p>
+            <h2>Torn off, restacked</h2>
+          </div>
+          <p class="header-note">The display that survived surgery didn't survive assembly — and its replacement accidentally improved the design.</p>
+        </div>
+
+        <div class="build-story">
+          <aside class="build-note build-note--left">
+            <strong>06 THE TEAR</strong>
+            <p>During an enclosure test-fit the panel separated from its flex cable. The electronics survived; the glass and its ribbon did not. Two spares were waiting in the drawer — one stepped in.</p>
+          </aside>
+
+          <div class="build-grid build-grid--pair">
+            <figure class="media-slot build-card" data-media>
+              <img src="./media/06-display-broken.jpg" alt="OLED display broken away from its flex connection" data-media-content />
+              <div class="media-placeholder"><strong>Broken display</strong></div>
+              <figcaption><span>06</span> BROKEN DURING ASSEMBLY</figcaption>
+            </figure>
+            <figure class="media-slot build-card" data-media>
+              <img src="./media/06-display-stacked.jpg" alt="Replacement OLED mounted over the cut-down donor PCB" data-media-content />
+              <div class="media-placeholder"><strong>Replacement stack</strong></div>
+              <figcaption><span>07</span> REPLACEMENT + NEW STACK</figcaption>
+            </figure>
+          </div>
+
+          <aside class="build-note build-note--right">
+            <strong>07 THE RESTACK</strong>
+            <p>The replacement went on top of the cut-down PCB — shorter and denser than the original arrangement. That sandwich height is the number the cap ellipse later had to grow to swallow.</p>
+          </aside>
+        </div>
+      </section>
+
+
+      <section class="slide slide--anatomy" id="slide-8" data-title="Internals" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">08</div>
+        <div class="slide__header slide__header--split">
+          <div>
+            <p class="eyebrow">INTERNALS</p>
+            <h2>What goes inside</h2>
+          </div>
+          <p class="header-note">Each component was represented by its function, dimensions, placement, and assembly path.</p>
+        </div>
+
+        <div class="build-story build-story--anatomy">
+          <aside class="build-note build-note--left">
+            <strong>08 THE FINAL HARNESS</strong>
+            <p>Camera, OLED, switch, USB-C and battery contacts were soldered onto their permanent wiring from day one. This is that harness, working as one device.</p>
+          </aside>
+
+          <div class="anatomy-layout">
+            <figure class="media-slot media-slot--anatomy" data-media>
+              <img src="./media/07-soldered-internals.jpg" alt="Soldered electronics inside the pen" data-media-content />
+              <div class="media-placeholder">
+                <span class="media-placeholder__number">PHOTO / 04A</span>
+                <strong>Soldered internals</strong>
+                <code>07-soldered-internals.jpg</code>
+              </div>
+            </figure>
+
+            <div class="anatomy-right">
+            <div class="component-map">
+              <article><span class="component-map__pin">A</span><div><strong>XIAO ESP32-S3</strong><small>control and connectivity</small></div><code>CPU · WiFi · PSRAM</code></article>
+              <article><span class="component-map__pin">B</span><div><strong>OV5640 camera</strong><small>image capture</small></div><code>5 MP · autofocus</code></article>
+              <article><span class="component-map__pin">C</span><div><strong>96×16 OLED</strong><small>device output</small></div><code>14 chars / line</code></article>
+              <article><span class="component-map__pin">D</span><div><strong>10440 Li-ion</strong><small>AAA size · 570 mAh · 3.6 V · 2.05 Wh</small></div><code>Ø10 × 44 mm</code></article>
+              <article><span class="component-map__pin">E</span><div><strong>USB-C + switch</strong><small>charging and control</small></div><code>clip / cap skirt</code></article>
+            </div>
+
+            <div class="runtime-strip" aria-label="Estimated runtime on the 2.05 Wh cell">
+              <span class="runtime-strip__label">EST. RUNTIME<br />@ 2.05 Wh</span>
+              <div><b>~2 h</b><small>live streaming</small></div>
+              <div><b>~4 h</b><small>capture / standby</small></div>
+              <div><b>~2 h</b><small>recording to SD</small></div>
+            </div>
+            </div>
+          </div>
+
+          <aside class="build-note build-note--right">
+            <strong>08 TESTED BEFORE INSTALL</strong>
+            <p>The stack was powered and debugged loose because its solder joints and wire exits become difficult to reach after enclosure assembly.</p>
+          </aside>
+        </div>
+      </section>
+
+            <section class="slide slide--cad" id="slide-9" data-title="CAD" data-chrome="dark" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">09</div>
+        <div class="slide__header">
+          <p class="eyebrow">PYTHON CAD</p>
+          <h2>Find the mistakes before the printer does</h2>
+        </div>
+
+        <div class="cad-layout">
+          <div class="cad-thesis">
+            <span>ONE SOURCE OF TRUTH</span>
+            <p>The entire pen is one Python file — every dimension, every part, every wire, every check.</p>
+            <strong>Change one number and the script rebuilds all the parts and re-runs every physical test.</strong>
+          </div>
+
+          <div class="cad-script" aria-label="What each stage checks and how Python solves it">
+            <article>
+              <span>01 / WIRES</span>
+              <p class="cad-problem">Wires take up space — and you normally find that out during assembly.</p>
+              <p>The script models every wire as a solid object and checks it against the shell and the boards. A route that doesn't fit fails on screen, not on the desk.</p>
+            </article>
+            <article>
+              <span>02 / ASSEMBLY</span>
+              <p class="cad-problem">A part can fit inside the pen and still be impossible to put in.</p>
+              <p>The script slides each part along its entry path. If the battery, board, camera or display can't make it in, the build stops before anything prints.</p>
+            </article>
+            <article>
+              <span>03 / MOVEMENT</span>
+              <p class="cad-problem">The clip has to swing all the way around without scraping the cap.</p>
+              <p>The script rotates the clip in 45° steps and checks for collisions at every stop — 90°, where the cap is widest, is the hard one.</p>
+            </article>
+            <article>
+              <span>04 / PRINTING</span>
+              <p class="cad-problem">Exporting parts and arranging the print plate by hand invites mistakes.</p>
+              <p>The script exports all three bodies and lays out the print plate itself — the same way, every time.</p>
+            </article>
+            <article class="cad-script__wide">
+              <span>05 / FEEDBACK</span>
+              <p class="cad-problem">Some fixes are faster to make by hand in a CAD app — but the hand edit has to get back into the script.</p>
+              <p>Export the part before and after the hand fix. The script compares the two shapes and turns the difference into exact numbers for the master file.</p>
+            </article>
+          </div>
+
+          <div class="cad-output" aria-label="Generated CAD outputs">
+            <span><b>1</b> Python source</span>
+            <span><b>3</b> printable bodies</span>
+            <span><b>2</b> STEP files</span>
+            <span><b>1</b> generated print plate</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide slide--build" id="slide-10" data-title="Shapr3D" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">10</div>
+        <div class="slide__header slide__header--split">
+          <div>
+            <p class="eyebrow">CAD / HAND FIXES</p>
+            <h2>Pointing at geometry is hard</h2>
+          </div>
+          <p class="header-note">Some fixes are faster to make by hand in Shapr3D. The hard part was telling the AI where the hand had been.</p>
+        </div>
+
+        <div class="shapr-layout">
+          <aside class="build-note build-note--left sl-note1">
+            <strong>ARROWS AND CROSSES</strong>
+            <p>Marked-up screenshots looked like the obvious way to point at a bad wall or a phantom notch — arrows, crosses, red boxes. The agent agreed every time, then edited somewhere else. Pixels don't map to solids.</p>
+          </aside>
+          <figure class="media-slot build-card sl-img1" style="--focus: 50% 25%" data-media>
+            <img src="./media/10-shapr-annotated.png" alt="CAD cross-section annotated with red crosses and green arrows, trying to explain a fix to the AI" data-media-content />
+            <div class="media-placeholder"><strong>Annotated ask</strong></div>
+            <figcaption><span>01</span> THE ASK</figcaption>
+          </figure>
+          <figure class="media-slot build-card sl-img2" data-media>
+            <img src="./media/10-shapr-mark-1.png" alt="Teal CAD section with a red box around a misplaced hole" data-media-content />
+            <div class="media-placeholder"><strong>Red box attempt</strong></div>
+            <figcaption><span>02</span> THE RED BOX</figcaption>
+          </figure>
+          <figure class="media-slot build-card sl-sketch" data-media>
+            <img src="./media/10-shapr-cap-sketch.png" alt="Hand-drawn pen sketch explaining that the cap should extend slightly past the barrel, overhang areas hatched in green" data-media-content />
+            <div class="media-placeholder"><strong>Cap sketch</strong></div>
+            <figcaption><span>05</span> "LIKE A REAL CAP"</figcaption>
+          </figure>
+          <aside class="build-note build-note--left sl-note2">
+            <strong>DIFF INSTEAD OF DESCRIBING</strong>
+            <p>What worked: make the fix by hand in Shapr3D, export the body before and after, and let the model diff the two solids. The diff named the exact faces every time — and the fix went back into the Python master.</p>
+          </aside>
+          <figure class="media-slot build-card sl-img3" data-media>
+            <img src="./media/10-shapr-mark-2.png" alt="Gray CAD section with an orange box around a stray ledge" data-media-content />
+            <div class="media-placeholder"><strong>Another marked area</strong></div>
+            <figcaption><span>03</span> STILL POINTING</figcaption>
+          </figure>
+          <figure class="media-slot build-card sl-img4" style="--focus: 80% 50%" data-media>
+            <img src="./media/10-shapr-mark-3.png" alt="Close-up of a phantom notch in the shell, boxed in orange" data-media-content />
+            <div class="media-placeholder"><strong>The phantom notch</strong></div>
+            <figcaption><span>04</span> THE NOTCH</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="slide slide--viewer" id="slide-11" data-title="3D model" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">11</div>
+        <div class="viewer-copy">
+          <p class="eyebrow">3D MODEL</p>
+          <h2>The model used for printing</h2>
+          <p>Three STL bodies from the same CAD program that runs the assembly gates — sized by the parts it must swallow.</p>
+
+          <div class="constraint-list" aria-label="What determined the size">
+            <div class="constraint"><b>17.8 mm</b><span>the XIAO board sets the minimum width</span></div>
+            <div class="constraint"><b>Ø10 × 44</b><span>the battery owns the barrel</span></div>
+            <div class="constraint"><b>96 × 16 px</b><span>the display sets the window and message size</span></div>
+            <div class="constraint"><b>OV5640 AF</b><span>autofocus for readable screen capture</span></div>
+            <div class="constraint"><b>0 ports</b><span>USB-C under the clip, switch under the cap skirt</span></div>
+          </div>
+
+          <div class="viewer-legend" aria-label="Model part legend">
+            <span><i class="swatch swatch--chassis"></i>Chassis</span>
+            <span><i class="swatch swatch--cover"></i>Cover</span>
+            <span><i class="swatch swatch--clip"></i>Rotating clip</span>
+            <span><i class="swatch swatch--battery"></i>Battery</span>
+            <span><i class="swatch swatch--electronics"></i>Electronics</span>
+            <span><i class="swatch swatch--refill"></i>Refill</span>
+          </div>
+
+          <div class="viewer-facts">
+            <div><strong>21.6 × 20.0 × 140</strong><span>envelope, grown at print #3</span></div>
+            <div><strong>1.5 mm</strong><span>slide to lock</span></div>
+            <div><strong>360°</strong><span>clip rotation</span></div>
+            <div><strong>bottom-first</strong><span>assembly order</span></div>
+          </div>
+          <p class="viewer-note">Grown when the measured camera stack refused to fit: 20.4 × 18.0 → 21.6 × 20.0.</p>
+        </div>
+
+        <div class="viewer-stage" id="pen-viewer">
+          <canvas aria-label="Interactive three-dimensional model of the Project Penny enclosure"></canvas>
+          <div class="viewer-grid" aria-hidden="true"></div>
+          <div class="viewer-loading" data-viewer-loading><span></span><strong>Loading generated geometry</strong></div>
+          <div class="viewer-hint" aria-hidden="true">DRAG TO ORBIT · WHEEL / PINCH TO ZOOM</div>
+          <details class="viewer-panel" open>
+            <summary>Model controls</summary>
+
+            <label class="viewer-control">
+              <span>Rotate clip <output data-view-clip-output>0°</output></span>
+              <input type="range" min="-180" max="180" value="0" step="1" data-view-clip />
+            </label>
+
+            <label class="viewer-control">
+              <span>Assemble <output data-view-assembly-output>built</output></span>
+              <input type="range" min="0" max="100" value="100" step="1" data-view-assembly />
+            </label>
+
+            <div class="viewer-toggles">
+              <label><input type="checkbox" checked data-view-spin /> Auto-spin</label>
+              <label><input type="checkbox" data-view-xray /> X-ray</label>
+              <label><input type="checkbox" checked data-view-internals /> Internals</label>
+            </div>
+
+            <button class="viewer-reset" type="button" data-view-action="reset">Reset view</button>
+          </details>
+        </div>
+      </section>
+
+      <section class="slide slide--prints" id="slide-12" data-title="Printing" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">12</div>
+        <div class="slide__header slide__header--split">
+          <div>
+            <p class="eyebrow">PRINTING</p>
+            <h2>Seven test prints</h2>
+          </div>
+          <p class="header-note">Generate → validate → slice → print → cure → assemble → measure → revise.</p>
+        </div>
+
+        <div class="build-story build-story--printing">
+          <div class="build-note-stack">
+            <aside class="build-note build-note--left">
+              <strong>09 SIX AND A HALF HOURS</strong>
+              <p>One run of the plate takes 6.5 hours of printing. Seven runs to the final pen — about 45 hours of the printer working in the corner of the room.</p>
+            </aside>
+            <aside class="build-note build-note--left">
+              <strong>10 SCRIPT TO SLICER TO PRINTER</strong>
+              <p>The Python model exports the plate; Lychee grows the orange support tree automatically — then a manual pass moves struts off pins, lock claws, and colliding faces.</p>
+            </aside>
+          </div>
+
+          <div class="printing-layout">
+            <div class="slicing-panel">
+              <figure class="media-slot media-slot--supports" data-media>
+                <img src="./media/10-print-supports.jpeg" alt="Pen enclosure halves and clip arranged with resin-printing supports in Lychee Slicer" data-media-content />
+                <div class="media-placeholder"><strong>Print supports</strong><code>10-print-supports.jpeg</code></div>
+                <figcaption>LYCHEE SLICER / SUPPORT PREVIEW</figcaption>
+              </figure>
+              <div class="slicing-facts">
+                <div><span>HALVES</span><strong>Medium supports</strong></div>
+                <div><span>CLIP</span><strong>Light supports</strong></div>
+                <div><span>CONTACTS</span><strong>Off pins &amp; claws</strong></div>
+              </div>
+            </div>
+
+            <div class="print-media-grid print-media-grid--compact">
+            <figure class="media-slot media-slot--process build-card" data-media>
+              <img src="./media/10-printer-work.jpg" alt="Working beside the resin printer during the enclosure print" data-media-content />
+              <div class="media-placeholder"><strong>Print in progress</strong></div>
+              <figcaption><span>09</span> PRINT IN PROGRESS</figcaption>
+            </figure>
+
+            <figure class="media-slot media-slot--process build-card" data-media>
+              <img src="./media/10-printer-loaded.jpg" alt="Pen enclosure print loaded on the resin printer" data-media-content />
+              <div class="media-placeholder"><strong>Print loaded</strong></div>
+              <figcaption><span>10</span> JOB LOADED</figcaption>
+            </figure>
+
+            <figure class="media-slot media-slot--video media-slot--process" data-media>
+              <video src="./media/10-printer-start.mp4" muted loop playsinline preload="metadata" data-media-content></video>
+              <div class="media-placeholder">
+                <span class="media-placeholder__number">VIDEO / 06A</span>
+                <strong>Printer starting</strong>
+                <code>10-printer-start.mp4</code>
+              </div>
+              <figcaption><span>11</span> LIQUID RESIN → LAYERS</figcaption>
+            </figure>
+
+            <figure class="media-slot media-slot--video media-slot--process" data-media>
+              <video src="./media/10-wash-cure-rotation.mp4" muted loop playsinline preload="metadata" data-media-content></video>
+              <div class="media-placeholder">
+                <span class="media-placeholder__number">VIDEO / 06B</span>
+                <strong>Parts rotating in wash / cure</strong>
+                <code>10-wash-cure-rotation.mp4</code>
+              </div>
+              <figcaption><span>12</span> UV CURE / FINAL STEP</figcaption>
+            </figure>
+          </div>
+
+          </div>
+
+          <div class="build-note-stack">
+            <aside class="build-note build-note--right">
+              <strong>11 RESIN TO LAYERS</strong>
+              <p>The build plate dips into liquid resin and UV light hardens one thin layer at a time — the halves grow tip-up, all night.</p>
+            </aside>
+            <aside class="build-note build-note--right">
+              <strong>12 CURE COMES LAST</strong>
+              <p>The parts were washed after printing, then UV-cured to reach working strength. Only after that could fit testing and assembly begin.</p>
+            </aside>
+          </div>
+        </div>
+
+      </section>
+
+      <section class="slide slide--assembly" id="slide-13" data-title="Assembly" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">13</div>
+        <div class="slide__header slide__header--split">
+          <div>
+            <p class="eyebrow">ASSEMBLY</p>
+            <h2>Electronics into the enclosure</h2>
+          </div>
+          <p class="header-note">The completed stack was fitted bottom-first, then checked at component and enclosure level before closure.</p>
+        </div>
+
+        <div class="build-story">
+          <div class="build-note-stack">
+            <aside class="build-note build-note--left">
+              <strong>13 STACK READY</strong>
+              <p>The controller, display, camera and wiring, compressed into the narrow arrangement the enclosure was modeled around.</p>
+            </aside>
+            <aside class="build-note build-note--left">
+              <strong>14 BELOW THE SEAM</strong>
+              <p>Everything laid in must stay below the closure line — the cover drops on and slides shut over it.</p>
+            </aside>
+          </div>
+
+          <div class="build-grid build-grid--assembly">
+            <figure class="media-slot build-card" data-media>
+              <img src="./media/11-stack-ready.jpg" alt="Completed electronics stack ready for enclosure assembly" data-media-content />
+              <div class="media-placeholder"><strong>Stack ready</strong></div>
+              <figcaption><span>13</span> STACK READY</figcaption>
+            </figure>
+            <figure class="media-slot build-card" data-media>
+              <img src="./media/11-in-body.jpg" alt="Electronics installed into the lower half of the pen enclosure" data-media-content />
+              <div class="media-placeholder"><strong>Installed in body</strong></div>
+              <figcaption><span>14</span> BOTTOM-FIRST INSTALL</figcaption>
+            </figure>
+            <figure class="media-slot build-card" data-media>
+              <img src="./media/11-installed-closeup.jpg" alt="Close-up of the installed board, wires, switch, and battery" data-media-content />
+              <div class="media-placeholder"><strong>Installed close-up</strong></div>
+              <figcaption><span>15</span> FIT CHECK</figcaption>
+            </figure>
+          </div>
+
+          <aside class="build-note build-note--right">
+            <strong>15 THE ANTENNA TRICK</strong>
+            <p>The board's built-in antenna, sealed in the pen, reached 1–2 meters. In this close-up: an external sheet antenna, clicked onto the board's socket and slid flat between the two boards — range now through two walls.</p>
+          </aside>
+        </div>
+      </section>
+
+
+
+      <section class="slide slide--network" id="slide-14" data-title="Connection" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">14</div>
+        <div class="slide__header slide__header--split">
+          <div>
+            <p class="eyebrow">CONNECTION</p>
+            <h2>How the pen connects</h2>
+          </div>
+          <p class="header-note">The device accepts no inbound connection. Persistent captures and recordings remain on the server.</p>
+        </div>
+
+        <div class="network-layout">
+          <div class="network-diagram" aria-label="Penny Link network architecture">
+            <article class="network-node network-node--pen"><span>EDGE</span><strong>PEN</strong><small>camera · OLED · SD buffer</small></article>
+            <div class="network-link"><b>WiFi</b><i></i><small>outbound</small></div>
+            <article class="network-node"><span>TUNNEL</span><strong>WIREGUARD</strong><small>private perimeter</small></article>
+            <div class="network-link"><b>WS</b><i></i><small>binary + JSON</small></div>
+            <article class="network-node network-node--relay"><span>OPENWRT ROUTER · DOCKER</span><strong>AIOHTTP RELAY</strong><small>web app · captures · recordings · OTA</small></article>
+            <div class="network-link"><b>HTTP</b><i></i><small>same service</small></div>
+            <article class="network-node"><span>CLIENT</span><strong>REACT APP</strong><small>control · live view · messages</small></article>
+          </div>
+          <div class="media-stack media-stack--app">
+            <figure class="media-slot media-slot--app" data-media>
+              <img src="./media/12-penny-link-dashboard.jpg" alt="Penny Link web app: capture controls, pen display messages, and a recorded session timeline" data-media-content />
+              <div class="media-placeholder"><strong>Penny Link web app</strong><code>12-penny-link-dashboard.jpg</code></div>
+              <figcaption>PENNY LINK / CAPTURE + RECORD</figcaption>
+            </figure>
+            <figure class="media-slot media-slot--app" data-media>
+              <img src="./media/12-penny-link-player.jpg" alt="Recording playback with frame-by-frame scrubbing — frame 12 of 24, chunk 229" data-media-content />
+              <div class="media-placeholder"><strong>Recording playback</strong><code>12-penny-link-player.jpg</code></div>
+              <figcaption>PLAYBACK / FRAME SCRUB</figcaption>
+            </figure>
+          </div>
+
+          <div class="mode-strip" aria-label="What the link carries"><span>CAPTURE</span><span>STREAM</span><span>RECORD</span><span>DISPLAY MESSAGE</span><span>OTA UPDATE</span></div>
+        </div>
+      </section>
+
+
+      <section class="slide slide--wars" id="slide-15" data-title="Small wars" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">15</div>
+        <div class="slide__header slide__header--split">
+          <div>
+            <p class="eyebrow">DETAILS</p>
+            <h2>Three small wars</h2>
+          </div>
+          <p class="header-note">None of these was in the plan. Each one is why the pen works outside a demo.</p>
+        </div>
+
+        <div class="build-story">
+          <div class="build-note-stack">
+            <aside class="build-note build-note--left">
+              <strong>16 THE DISPLAY REFUSED TO DIM</strong>
+              <p>The OLED clone ignores every software dimming path — contrast writes, register pokes, dithering. The fix is physical: a tint film over the window. Boot UX shrank to three glyphs: <code>...</code> booting, <code>+</code> online, <code>!</code> no WiFi.</p>
+            </aside>
+            <aside class="build-note build-note--left">
+              <strong>ONE ROTATION, THREE CODEBASES</strong>
+              <p>The sensor has no portrait mode. Rotate the view and the whole stack follows: the live stream turns in the browser, captures get their pixels rotated on the server, and the pen's display flips to stay readable.</p>
+            </aside>
+          </div>
+
+          <div class="build-grid build-grid--photos">
+            <figure class="media-slot build-card" style="--ar: 960 / 1280; --share: 38%" data-media>
+              <img src="./media/13-stealth-display.jpg" alt="The pen's display reading 'how you doin?', barely visible through the tint film" data-media-content />
+              <div class="media-placeholder"><strong>Display through the tint film</strong></div>
+              <figcaption><span>16</span> STEALTH LOOK</figcaption>
+            </figure>
+            <figure class="media-slot build-card" style="--ar: 750 / 1624; --share: 24%" data-media>
+              <img src="./media/13-hotspot-app.jpg" alt="Penny Hotspot — the TrollStore app that keeps the iPhone hotspot discoverable while locked" data-media-content />
+              <div class="media-placeholder"><strong>Penny Hotspot app</strong></div>
+              <figcaption><span>17</span> PENNY HOTSPOT / TROLLSTORE</figcaption>
+            </figure>
+          </div>
+
+          <div class="build-note-stack">
+            <aside class="build-note build-note--right">
+              <strong>17 POCKET INFRASTRUCTURE</strong>
+              <p>iOS kills a locked phone's hotspot in ~20 seconds — fatal for a pen that lives in a pocket. A custom TrollStore app keeps Personal Hotspot advertising with the app closed and the phone locked, and the hotspot hides under a boring printer SSID.</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide slide--rebuild" id="slide-16" data-title="Clean the vat" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">16</div>
+        <div class="slide__header slide__header--split">
+          <div>
+            <p class="eyebrow">PRINTING / SETBACK</p>
+            <h2>Hours of printing, zero model</h2>
+          </div>
+          <p class="header-note">A dirty vat doesn't refuse to print — it prints nothing, slowly.</p>
+        </div>
+
+        <div class="build-story">
+          <aside class="build-note build-note--left">
+            <strong>18 CLEAN THE VAT</strong>
+            <p>Print over a vat still holding debris from a failed attempt and nothing sticks — the printer runs for hours before the self-test finally admits "No model detected." Hours of "printing", zero model.</p>
+          </aside>
+
+          <div class="build-grid build-grid--photos">
+            <figure class="media-slot build-card" style="--ar: 926 / 842; --share: 46%" data-media>
+              <img src="./media/14-printer-no-model.jpg" alt="Resin printer self-test reporting 'No model detected, please troubleshoot' hours into a print over an uncleaned vat" data-media-content />
+              <div class="media-placeholder"><strong>Printer self-test failure</strong></div>
+              <figcaption><span>18</span> UNCLEANED VAT / SELF-TEST FAIL</figcaption>
+            </figure>
+          </div>
+
+          <aside class="build-note build-note--right">
+            <strong>SPECIAL THANKS</strong>
+            <p>To my girlfriend, who cleaned the vat when I was too exhausted to face it — without her, this story probably ends a few slides early.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide slide--answer" id="slide-17" data-title="AI" data-chrome="dark" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">17</div>
+        <div class="slide__header">
+          <p class="eyebrow">AI</p>
+          <h2>Where AI helped</h2>
+        </div>
+
+        <div class="answer-grid">
+          <article class="answer-no">
+            <span>STILL REQUIRED</span>
+            <p>physical fit and assembly validation</p>
+            <p>specialist soldering and fabrication</p>
+            <p>material and process constraints</p>
+            <p>engineering and product decisions</p>
+          </article>
+          <article class="answer-yes">
+            <span>AI ACCELERATED</span>
+            <p>cross-domain implementation</p>
+            <p>conversion of feedback into code</p>
+            <p>context across mechanical and software details</p>
+            <p>conversion of failures into automated controls</p>
+          </article>
+        </div>
+
+        <p class="guard-intro">EVERY FAILURE BECAME AN AUTOMATIC CHECK</p>
+        <div class="guard-list" aria-label="Failures converted into permanent guards">
+          <article><span>THE PEN ONCE FROZE FOR TWO HOURS</span><i>→</i><strong>now it reboots itself if it hangs</strong></article>
+          <article><span>ONE BUILD SETTING COULD BRICK IT</span><i>→</i><strong>now the build sets it, never a human</strong></article>
+          <article><span>A TYPO CREATED 49 FALSE PART COLLISIONS</span><i>→</i><strong>now scripts verify the geometry</strong></article>
+        </div>
+
+        <div class="answer-equation"><strong>RESULT</strong><span>One coordinated mechanical, embedded, network, and web system.</span></div>
+      </section>
+
+      <section class="slide slide--closing" id="slide-18" data-title="Result" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">18</div>
+        <div class="closing-copy">
+          <p class="eyebrow">REAL-WORLD TEST</p>
+          <h2>Autofocus was not good enough</h2>
+          <p>The complete system worked, but the final real-world capture exposed the remaining problem: autofocus did not produce consistently readable screen images. It passed integration, not the reality check.</p>
+          <div class="closing-status"><i></i><span>SYSTEM WORKED</span><i></i><span>IMAGE QUALITY DID NOT</span></div>
+          <p class="closing-bookend">The project's first feasibility note — written before any hardware existed — named optics and focus as the top risk. The last test agrees: the risk register was right all along.</p>
+        </div>
+
+        <figure class="closing-meme">
+          <img src="./media/18-task-failed.png" alt="Windows-style error dialog from penny.exe reporting: Task failed successfully" />
+          <figcaption>FIELD TEST / VERDICT</figcaption>
+        </figure>
+
+        <div class="closing-word" aria-hidden="true">PENNY</div>
+      </section>
+
+      <section class="slide slide--finale" id="slide-19" data-title="The pen" aria-hidden="true">
+        <div class="slide__index" aria-hidden="true">19</div>
+        <div class="finale-layout">
+          <figure class="media-slot media-slot--finale" style="--ar: 4032 / 3024" data-media>
+            <img src="./media/16-finished-pen.jpg" alt="The finished Project Penny pen" data-media-content />
+            <div class="media-placeholder">
+              <span class="media-placeholder__number">PHOTO / 01</span>
+              <strong>Finished pen</strong>
+              <code>16-finished-pen.jpg</code>
+            </div>
+            <figcaption>PHYSICAL PROTOTYPE</figcaption>
+          </figure>
+          <div class="finale-copy">
+            <p class="eyebrow">THE OBJECT</p>
+            <h2>Penny</h2>
+            <p>21.6 × 20.0 × 140 mm of resin, copper and stubbornness.<br />$200 to figure it out. The next one would cost $80.</p>
+            <div class="finale-thanks" aria-label="Special thanks">
+              <span>SPECIAL THANKS</span>
+              <ul>
+                <li><strong>My girlfriend</strong> — for supporting the project all the way</li>
+                <li><strong>Vitalii</strong> — for the soldering</li>
+                <li><strong>Vladyslav</strong> — for lending the printer, the guidance, and printing the early models</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="chapter-nav" aria-label="Presentation slides"></nav>
+
+    <div class="deck-controls">
+      <button type="button" data-deck-action="previous" aria-label="Previous slide">←</button>
+      <span><b data-current-slide>01</b> / <span data-total-slides>14</span></span>
+      <button type="button" data-deck-action="next" aria-label="Next slide">→</button>
+    </div>
+
+    <div class="deck-progress" aria-hidden="true"><i></i></div>
+    <div class="keyboard-hint" aria-hidden="true"><span>← →</span> navigate <span>F</span> fullscreen</div>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

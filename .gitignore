@@ -1,0 +1,27 @@
+# macOS junk
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# node / build output
+node_modules/
+dist/
+*.log
+npm-debug.log*
+
+# editors
+.vscode/
+.idea/
+*.swp
+
+# python leftovers (if any tooling scripts run here)
+__pycache__/
+*.pyc
+
+# never commit secrets, even by accident
+.env
+.env.*
+secrets.h

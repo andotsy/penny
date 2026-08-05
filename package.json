@@ -1,0 +1,21 @@
+{
+  "name": "project-penny-presentation",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "models": "node scripts/sync-models.mjs",
+    "predev": "npm run models",
+    "dev": "vite --host 0.0.0.0",
+    "prebuild": "npm run models",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "check": "node scripts/check-presentation.mjs && vite build"
+  },
+  "dependencies": {
+    "three": "^0.179.1"
+  },
+  "devDependencies": {
+    "vite": "^7.0.6"
+  }
+}
