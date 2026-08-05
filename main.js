@@ -175,7 +175,14 @@ function initializeMediaSlots() {
       else media.load();
     } else {
       media.addEventListener("load", markReady);
-      if (media.complete && media.naturalWidth > 0) markReady();
+      if (media.complete && media.naturalWidth > 0) {
+        markReady();
+      } else if (media.getAttribute("src")) {
+        // image referenced but not downloaded yet (slow network / large photo): same
+        // spinner as videos. complete===true with naturalWidth 0 means a broken file —
+        // the error handler clears the state.
+        slot.classList.add("is-loading");
+      }
     }
   });
 }
