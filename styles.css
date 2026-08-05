@@ -1558,19 +1558,21 @@ h1 em {
    annotation in frame. */
 .shapr-layout {
   display: grid;
-  grid-template-columns: minmax(230px, 300px) auto auto auto;
+  /* fr-based tracks: every column scales with the window, so cards can NEVER
+     overlap - they shrink together instead (the old vh-sized cards could not) */
+  grid-template-columns: minmax(220px, 0.66fr) 1fr 1fr minmax(0, 0.8fr);
   grid-template-areas:
     "note1 img1 img2 sketch"
     "note2 img3 img4 sketch";
   gap: clamp(10px, 1.3vw, 16px);
-  justify-content: center;
+  width: min(100%, 1560px);
+  margin-inline: auto;
   align-items: start;
 }
 
 .shapr-layout .build-card {
-  /* Height-driven so two rows always fit under the slide header. */
-  height: min(27vh, 300px);
-  width: auto;
+  width: 100%;
+  height: auto;
   aspect-ratio: 3 / 2;
   min-height: 0;
 }
@@ -1589,11 +1591,13 @@ h1 em {
 
 .shapr-layout .sl-sketch {
   grid-area: sketch;
-  /* Exactly two screenshot rows tall (incl. the row gap); width follows the
-     sketch's own aspect ratio. */
-  height: calc(2 * min(27vh, 300px) + clamp(10px, 1.3vw, 16px));
-  aspect-ratio: 563 / 980;
+  /* spans both screenshot rows; width follows its own aspect, capped by the track */
+  height: 100%;
   width: auto;
+  max-width: 100%;
+  aspect-ratio: 563 / 980;
+  justify-self: center;
+  align-self: stretch;
 }
 
 .shapr-layout .sl-sketch img {
@@ -3108,7 +3112,7 @@ h1 em {
 
 /* slide 10 mid-width reflow: the wide collage is vh-sized and stops fitting below ~1500px -
    switch to a fluid two-column flow (mobile keeps its own single-column block below 781px) */
-@media (min-width: 781px) and (max-width: 1500px) {
+@media (min-width: 781px) and (max-width: 1279px) {
   .shapr-layout {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
@@ -3143,4 +3147,9 @@ h1 em {
   bottom: 12px;
   padding: 5px 8px;
   font-size: 8.5px;
+}
+
+/* AI slide: the three humbled-stories are columns on desktop - rows on mobile */
+@media (max-width: 780px) {
+  .guard-list { grid-template-columns: 1fr; }
 }
