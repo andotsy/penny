@@ -3091,3 +3091,17 @@ h1 em {
     min-height: 280px;
   }
 }
+
+/* collapsed model-controls: just the arrow + label - no box, border, or blur */
+.viewer-panel:not([open]) {
+  width: auto;
+  padding: 0;
+  background: none;
+  border-color: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+.viewer-panel:not([open]) summary {
+  padding: 10px 12px;   /* keep a finger-sized tap target without the panel chrome */
+}
